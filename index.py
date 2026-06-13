@@ -105,25 +105,28 @@ def call_deepseek(card_text, recent_messages):
         "content": f"字卡：{card_text}"
     })
 
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
-}
-payload = {
-    "model": "deepseek-chat",
-    "messages": messages,
-    "temperature": 0.9,
-    "max_tokens": 80
-}
-resp = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=30)
-if resp.status_code == 200:
-    result = resp.json()
-    return result["choices"][0]["message"]["content"].strip()
-else:
-    # 把错误信息打印到日志
-    print(f"DeepSeek API error: status={resp.status_code}, response={resp.text}")
-    return "今天也辛苦了，梦角在呢。"
-
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
+    }
+    payload = {
+        "model": "deepseek-chat",
+        "messages": messages,
+        "temperature": 0.9,
+        "max_tokens": 80
+    }
+    try:
+        resp = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=30)
+        if resp.status_code == 200:
+            result = resp.json()
+            return result["choices"][0]["message"]["content"].strip()
+        else:
+            # 调试：打印错误详情
+            print(f"DeepSeek API error: status={resp.status_code}, body={resp.text}")
+            return "今天也辛苦了，梦角在呢。"
+    except Exception as e:
+        print(f"DeepSeek request failed: {str(e)}")
+        return "今天也辛苦了，梦角在呢。"
 # ---------- 消息处理 ----------
 @robot.text
 def handle_text(message):
