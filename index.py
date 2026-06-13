@@ -196,3 +196,14 @@ def main_handler(event, context):
         "headers": response_headers,
         "body": body
     }
+# 本地开发/其他云平台直接运行时，启动 HTTP 服务器
+if __name__ == "__main__":
+    from wsgiref.simple_server import make_server
+    
+    # 初始化数据库（确保临时表存在）
+    init_db()
+    
+    # 启动服务器，监听 0.0.0.0:8080
+    server = make_server('0.0.0.0', 8080, robot.wsgi)
+    print("Server started on http://0.0.0.0:8080")
+    server.serve_forever()
