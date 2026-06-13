@@ -105,21 +105,21 @@ def call_deepseek(card_text, recent_messages):
         "content": f"字卡：{card_text}"
     })
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
-    }
-    payload = {
-        "model": "deepseek-chat",
-        "messages": messages,
-        "temperature": 0.9,
-        "max_tokens": 80
-    }
-    resp = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=30)
-    if resp.status_code == 200:
-        result = resp.json()
-        return result["choices"][0]["message"]["content"].strip()
-    else:
+headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
+}
+payload = {
+    "model": "deepseek-chat",
+    "messages": messages,
+    "temperature": 0.9,
+    "max_tokens": 80
+}
+resp = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=30)
+if resp.status_code == 200:
+    result = resp.json()
+    return result["choices"][0]["message"]["content"].strip()
+else:
     # 把错误信息打印到日志
     print(f"DeepSeek API error: status={resp.status_code}, response={resp.text}")
     return "今天也辛苦了，梦角在呢。"
