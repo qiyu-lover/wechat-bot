@@ -10,7 +10,7 @@ from io import BytesIO
 import requests
 import werobot
 from werobot import WeRoBot
-from werobot.reply import TextReply
+# from werobot.reply import TextReply
 
 # ---------- 字卡加载函数（从同目录 cards.txt 读取）----------
 def load_cards():
