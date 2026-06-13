@@ -120,7 +120,9 @@ def call_deepseek(card_text, recent_messages):
         result = resp.json()
         return result["choices"][0]["message"]["content"].strip()
     else:
-        return "今天也辛苦了，梦角在呢。"
+    # 把错误信息打印到日志
+    print(f"DeepSeek API error: status={resp.status_code}, response={resp.text}")
+    return "今天也辛苦了，梦角在呢。"
 
 # ---------- 消息处理 ----------
 @robot.text
