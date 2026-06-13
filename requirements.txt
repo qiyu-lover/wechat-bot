@@ -1,2 +1,3 @@
 werobot
 requests
+cryptography
